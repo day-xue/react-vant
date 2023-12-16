@@ -1,39 +1,39 @@
+import clsx from 'clsx'
 import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useImperativeHandle,
   forwardRef,
   useContext,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
   useState,
 } from 'react'
-import clsx from 'clsx'
 
+import useEventListener from '../hooks/use-event-listener'
 import Loading from '../loading'
 import Column from './PickerColumn'
-import useEventListener from '../hooks/use-event-listener'
 
-import {
-  PickerProps,
-  PickerMultipleProps,
-  PickerPopupActions,
-  PickerColumnOption,
-} from './PropsType'
-import {
-  unitToPx,
-  preventDefault,
-  isObject,
-  extend,
-  createNamespace,
-} from '../utils'
-import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant'
 import ConfigProviderContext from '../config-provider/ConfigProviderContext'
 import { useMemoizedFn, usePropsValue } from '../hooks'
-import Popup from '../popup'
-import { useColumnsExtend } from './columnsExtend'
-import useRefs from '../hooks/use-refs'
 import useDebounceEffect from '../hooks/use-debunce-effect'
+import useRefs from '../hooks/use-refs'
+import Popup from '../popup'
+import {
+  createNamespace,
+  extend,
+  isObject,
+  preventDefault,
+  unitToPx,
+} from '../utils'
+import { BORDER_UNSET_TOP_BOTTOM } from '../utils/constant'
 import { mergeProps } from '../utils/get-default-props'
+import {
+  PickerColumnOption,
+  PickerMultipleProps,
+  PickerPopupActions,
+  PickerProps,
+} from './PropsType'
+import { useColumnsExtend } from './columnsExtend'
 
 const [bem] = createNamespace('picker')
 
@@ -330,6 +330,7 @@ function PopupPicker<T = PickerColumnOption>(
   const onConfirm = (val, items, indexes) => {
     setValue(innerValue, true)
     props.onConfirm?.(parseValue(val), parseValue(items), parseValue(indexes))
+    props.onChange?.(parseValue(val), parseValue(items), parseValue(indexes))
     if (popup) actions.close()
   }
 
